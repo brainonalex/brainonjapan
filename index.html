@@ -1,421 +1,248 @@
 <!DOCTYPE html>
-
 <html lang="ja">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title> BOJ (Brain on Japan) | 大型LEDレンタル・舞台技術専門</title>
-
     <link rel="icon" href="images/favicon.png" type="image/png">
-
     <style>
-
         :root {
-
             --primary-color: #0a192f;
-
             --accent-color: #64ffda;
-
             --text-light: #e6f1ff;
-
             --text-gray: #8892b0;
-
             --white: #ffffff;
-
         }
-
-
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body { 
-
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-
             background-color: var(--primary-color); 
-
             color: var(--text-light);
-
             line-height: 1.8;
-
             overflow-x: hidden;
-
         }
-
-
-
-        /* 네비게이션 폰트 통일 */
 
         nav {
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
             padding: 15px 5%;
-
             background: rgba(10, 25, 47, 0.95);
-
             position: fixed;
-
             width: 100%;
-
             top: 0;
-
             z-index: 1000;
-
         }
-
         
-
         .logo-container { display: flex; align-items: center; gap: 10px; }
-
         nav ul { display: flex; list-style: none; align-items: center; }
-
         nav ul li { margin-left: 20px; }
-
         nav ul li a { 
-
             text-decoration: none; 
-
             color: var(--text-light); 
-
-            font-weight: 600; /* 폰트 두께 통일 */
-
+            font-weight: 600;
             font-size: 0.95rem; 
-
             transition: 0.3s;
-
             letter-spacing: -0.5px;
-
         }
-
         nav ul li a:hover { color: var(--accent-color); }
 
-
-
         .hero {
-
             min-height: 100vh;
-
             display: flex;
-
             flex-direction: column;
-
             justify-content: center;
-
             align-items: center;
-
             text-align: center;
-
             padding: 100px 5% 50px;
-
             background: linear-gradient(rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.7)), 
-
                         url('images/main-bg.png'); 
-
             background-size: cover;
-
             background-position: center;
-
         }
-
         .hero h1 { font-size: 2.2rem; margin-bottom: 20px; line-height: 1.3; }
-
         .hero p { font-size: 1rem; color: var(--text-gray); max-width: 700px; word-break: keep-all; }
 
-
-
         section { padding: 80px 5%; }
-
         h2 { font-size: 1.8rem; margin-bottom: 40px; border-left: 5px solid var(--accent-color); padding-left: 20px; }
 
-
-
         .grid {
-
             display: grid;
-
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-
             gap: 20px;
-
         }
-
-
 
         .card { background: #112240; padding: 25px; border-radius: 10px; }
-
         .card h3 { color: var(--accent-color); margin-bottom: 15px; font-size: 1.2rem; }
 
-
-
         .portfolio-item { height: 220px; background: #233554; border-radius: 8px; overflow: hidden; }
-
         .portfolio-item img { width: 100%; height: 100%; object-fit: cover; }
 
-
-
-        /* 거래처 리스트 스타일 */
-
-        .partners-list {
-
-            list-style: none;
-
-            display: grid;
-
-            grid-template-columns: repeat(3, 1fr);
-
-            gap: 15px;
-
-            text-align: center;
-
+        /* --- 무한 흐르는 파트너사 스타일 --- */
+        .partners-container {
+            width: 100%;
+            overflow: hidden;
+            padding: 20px 0;
+            position: relative;
         }
 
-        .partners-list li {
-
-            background: rgba(100, 255, 218, 0.05);
-
-            border: 1px solid rgba(100, 255, 218, 0.1);
-
-            padding: 20px;
-
-            border-radius: 5px;
-
-            color: var(--text-light);
-
-            font-size: 0.85rem;
-
-            font-weight: 500;
-
-            transition: 0.3s;
-
+        .partners-track {
             display: flex;
+            width: max-content;
+            animation: scroll-left 40s linear infinite;
+        }
 
+        .partners-track:hover {
+            animation-play-state: paused;
+        }
+
+        .partner-item {
+            flex-shrink: 0;
+            width: 250px;
+            height: 80px;
+            margin: 0 10px;
+            background: rgba(100, 255, 218, 0.05);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            border-radius: 5px;
+            display: flex;
             align-items: center;
-
             justify-content: center;
-
-            min-height: 80px;
-
+            color: var(--text-light);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+            padding: 10px;
             word-break: keep-all;
-
         }
 
-        .partners-list li:hover {
-
-            background: rgba(100, 255, 218, 0.1);
-
-            border-color: var(--accent-color);
-
-            transform: translateY(-3px);
-
+        .partner-item.empty {
+            border-style: dashed;
+            opacity: 0.3;
+            color: var(--text-gray);
         }
 
-
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
 
         footer { background: #020c1b; padding: 60px 5%; text-align: center; font-size: 0.9rem; color: var(--text-gray); }
-
         .contact-info { margin-bottom: 20px; text-align: left; display: inline-block; }
 
-
-
         @media (max-width: 768px) {
-
             nav { flex-direction: column; padding: 10px 5%; }
-
             nav ul { margin-top: 15px; gap: 10px; flex-wrap: wrap; justify-content: center; }
-
             nav ul li { margin: 0 5px; }
-
             .hero h1 { font-size: 1.8rem; }
-
             section { padding: 60px 5%; }
-
-            .partners-list { grid-template-columns: repeat(2, 1fr); }
-
         }
-
     </style>
-
 </head>
-
 <body>
 
-
-
     <nav>
-
         <div class="logo-container">
-
             <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-
                 <rect x="10" y="10" width="20" height="20" fill="#64ffda"/>
-
                 <rect x="40" y="10" width="20" height="20" fill="#64ffda" fill-opacity="0.6"/>
-
                 <rect x="70" y="10" width="20" height="20" fill="#64ffda" fill-opacity="0.3"/>
-
                 <rect x="10" y="40" width="20" height="20" fill="#64ffda"/>
-
                 <rect x="10" y="70" width="20" height="20" fill="#64ffda"/>
-
                 <rect x="40" y="70" width="20" height="20" fill="#64ffda"/>
-
                 <rect x="70" y="70" width="20" height="20" fill="#64ffda"/>
-
             </svg>
-
             <span style="font-size: 1.2rem; font-weight: bold; color: var(--white);">BOJ</span>
-
         </div>
-
         <ul>
-
             <li><a href="#home">Home</a></li>
-
             <li><a href="#portfolio">実績</a></li>
-
             <li><a href="#equipment">機材</a></li>
-
             <li><a href="#partners">取引先</a></li>
-
             <li><a href="#contact">Contact</a></li>
-
         </ul>
-
     </nav>
 
-
-
     <section id="home" class="hero">
-
         <h1>感動を彩る、光の技術。</h1>
-
         <p>Brain on Japan ( BOJ ) は、<br>イベント映像38年のノウハウを持つENIX KOREAとの18年以上にわたる業務提携により、<br>
-
         大型LEDディスプレイのレンタル・施工から舞台技術の提供まで、<br>イベントの成功をトータルにサポートするプロフェッショナル集団です。</p>
-
     </section>
-
-
 
     <section id="portfolio">
-
         <h2>施工実績</h2>
-
         <div class="grid">
-
             <div class="portfolio-item"><img src="images/show1.png" alt="実績1"></div>
-
             <div class="portfolio-item"><img src="images/show2.png" alt="実績2"></div>
-
             <div class="portfolio-item"><img src="images/show3.png" alt="実績3"></div>
-
         </div>
-
     </section>
-
-
 
     <section id="equipment">
-
         <h2>主要機材のご案内</h2>
-
         <div class="grid">
-
             <div class="card">
-
                 <h3>高精細屋内用 LED</h3>
-
                 <p>ピッチサイズ P2.6mm〜<br>コンサート、展示会やプライベートイベントなど、鮮明な映像を提供します。</p>
-
             </div>
-
             <div class="card">
-
                 <h3>高輝度屋外用 LED</h3>
-
                 <p>ピッチサイズ P3.9mm〜<br>野外コンサートや大型フェスティバルに対応可能な防水・高輝度モデルです。</p>
-
             </div>
-
             <div class="card">
-
                 <h3>映像プロセッサー</h3>
-
                 <p>BARCO ENCORE-3 など最新システムと熟練されたオペレーターにより多様な視覚効果を実現します。</p>
-
             </div>
-
         </div>
-
     </section>
-
-
 
     <section id="partners">
-
         <h2>主要取引先</h2>
+        <div class="partners-container">
+            <div class="partners-track">
+                <div class="partner-item">ENIX KOREA</div>
+                <div class="partner-item">株式会社プロマックス</div>
+                <div class="partner-item">株式会社HYBE JAPAN</div>
+                <div class="partner-item">株式会社JYPエンターテインメント・ジャパン</div>
+                <div class="partner-item">株式会社LAPONEエンタテインメント</div>
+                <div class="partner-item">株式会社 CUBE ENTERTAINMENT JAPAN</div>
+                <div class="partner-item">株式会社インタラクティブメディアミックス</div>
+                <div class="partner-item">Jellyfish Entertainment Japan</div>
+                <div class="partner-item">株式会社RBW JAPAN</div>
+                <div class="partner-item">株式会社オフサイド</div>
+                <div class="partner-item empty">(Coming Soon)</div>
+                <div class="partner-item empty">(Coming Soon)</div>
+               
 
-        <ul class="partners-list">
-
-            <li>ENIX KOREA</li>
-
-            <li>株式会社プロマックス</li>
-
-            <li>株式会社HYBE JAPAN</li>
-
-            <li>株式会社JYPエンターテインメント・ジャパン</li>
-
-            <li>株式会社LAPONEエンタテインメント</li>
-
-            <li>株式会社 CUBE ENTERTAINMENT JAPAN</li>
-
-            <li>株式会社インタラクティブメディアミックス</li>
-
-            <li>Jellyfish Entertainment Japan</li>
-
-            <li>株式会社RBW JAPAN</li>
-
-        </ul>
-
+                <div class="partner-item">ENIX KOREA</div>
+                <div class="partner-item">株式会社プロマックス</div>
+                <div class="partner-item">株式会社HYBE JAPAN</div>
+                <div class="partner-item">株式会社JYPエンターテインメント・ジャパン</div>
+                <div class="partner-item">株式会社LAPONEエンタテインメント</div>
+                <div class="partner-item">株式会社 CUBE ENTERTAINMENT JAPAN</div>
+                <div class="partner-item">株式会社インタラクティブメディアミックス</div>
+                <div class="partner-item">Jellyfish Entertainment Japan</div>
+                <div class="partner-item">株式会社RBW JAPAN</div>
+                <div class="partner-item">株式会社オフサイド</div>
+                <div class="partner-item empty">(Coming Soon)</div>
+                <div class="partner-item empty">(Coming Soon)</div>
+            
+            </div>
+        </div>
     </section>
 
-
-
     <footer id="contact">
-
         <div class="contact-info">
-
             <p><strong>会社名:</strong> 株式会社 BRAIN ON JAPAN (BOJ)</p>
-
             <p><strong>お問合せ先:</strong> brainoncho@gmail.com</p>
-
             <p style="margin-top: 10px;">
-
                 <strong>本社所在地:</strong> 東京都品川区北品川<br>
-
                 <strong>新宿営業所:</strong> 東京都新宿区新宿 4丁目<br>
-
-                <strong>機材倉庫:</strong> 東京都品川区勝島1-2-1 マルフク産業 4F　BOJ
-
+                <strong>機재倉庫:</strong> 東京都品川区勝島1-2-1 マルフク産業 4F　BOJ
             </p>
-
         </div>
-
         <p style="margin-top: 20px;">&copy; 2026 BOJ All Rights Reserved.</p>
-
     </footer>
 
-
-
 </body>
-
 </html>
