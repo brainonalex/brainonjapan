@@ -535,32 +535,31 @@
             }
             .hero-image { display: none; }
             .hero-desc {
-                background: url(images/main-bg.png) center / cover no-repeat;
-                background-size: cover;
-                background-position: center;
-                color: rgba(244,243,240,0.9);
+                background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(images/main-bg.png) center / cover no-repeat;
+                background-blend-mode: normal;
+                color: #ffffff;
                 padding: 24px;
                 border-radius: 12px;
-                backdrop-filter: blur(2px);
-                -webkit-backdrop-filter: blur(2px);
-                box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                box-shadow: 0 8px 32px rgba(0,0,0,0.45);
                 border: 1px solid rgba(255,255,255,0.1);
                 position: relative;
+                line-height: 1.9;
             }
             .hero-desc::before {
                 content: '';
                 position: absolute;
                 inset: 0;
-                background: rgba(0,0,0,0.6);
+                background: rgba(0,0,0,0.1);
                 border-radius: 12px;
                 z-index: 0;
+                pointer-events: none;
             }
-            .hero-desc * {
+            .hero-desc, .hero-desc * {
                 position: relative;
                 z-index: 1;
-                color: #ffff00 !important;
-                text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,0.7);
-                font-weight: 400;
+                color: #ffffff !important;
+                text-shadow: 0 0 12px rgba(0,0,0,0.8);
+                font-weight: 500;
             }
             .portfolio-grid { grid-template-columns: 1fr; }
             .portfolio-item:first-child { aspect-ratio: 16/9; }
