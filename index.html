@@ -537,13 +537,17 @@
             .hero-desc {
                 background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(images/main-bg.png) center / cover no-repeat;
                 background-blend-mode: normal;
-                color: #ffffff;
-                padding: 24px;
+                color: rgba(255,255,255,0.92);
+                font-size: 0.82rem;
+                padding: 18px 16px;
                 border-radius: 12px;
                 box-shadow: 0 8px 32px rgba(0,0,0,0.45);
                 border: 1px solid rgba(255,255,255,0.1);
                 position: relative;
                 line-height: 1.9;
+                white-space: normal;
+                word-break: normal;
+                overflow-wrap: break-word;
             }
             .hero-desc::before {
                 content: '';
@@ -557,7 +561,7 @@
             .hero-desc, .hero-desc * {
                 position: relative;
                 z-index: 1;
-                color: #ffffff !important;
+                color: rgba(255,255,255,0.92) !important;
                 text-shadow: 0 0 12px rgba(0,0,0,0.8);
                 font-weight: 500;
             }
